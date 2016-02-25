@@ -1,0 +1,5 @@
+#!/bin/sh
+notify-send "Приветствие" "Привет, Чемпион!" -i gtk-info
+skype
+/usr/local/bin/guake
+

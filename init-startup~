@@ -1,0 +1,14 @@
+#!/bin/sh
+upstart_path="$HOME/.config/upstart"
+mkdir $upstart_path
+touch $upstart_path/startup.conf
+echo "start on desktop-start
+stop on desktop-end
+
+#respawn
+
+script 
+  startup &      
+end script" > $upstart_path/startup.conf
+
+echo "=== Startup init succeful =="
