@@ -1,0 +1,5 @@
+#!/bin/bash
+if ! [ -z "$1" ]; then path="$1"; else path="/"; fi
+
+sudo find $path -name "*~" -exec rm -f {} \;
+

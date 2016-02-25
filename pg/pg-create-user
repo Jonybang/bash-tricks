@@ -1,0 +1,2 @@
+#!/bin/sh
+psql -U postgres -w '' -c "CREATE USER $1 WITH PASSWORD '$2';"

@@ -1,0 +1,12 @@
+#!/bin/sh
+filename=$(basename "$1")
+filename="${filename%.*}"
+output_filename="${filename}-optimized.gif"
+
+frames_count=$(identify $1 | tail -1 | cut -d "[" -f2 - | cut -d "]" -f1 -)
+delay=$(identify -verbose $1[0] | grep Delay | gawk 'match($0, /Delay: ([0-9]*)x[0-9]*/, arr) {print arr[1]}')
+
+gifsicle $1 `seq -f "#%g" 0 2 $frames_count` --unoptimize -O2 -o $output_filename
+
+
+convert -delay ${delay/2}x100 $output_filename $output_filename

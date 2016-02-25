@@ -1,0 +1,21 @@
+#!/bin/bash
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export_paths=($script_dir/*/)
+export_paths+=("$script_dir/")
+
+for exp_path in "${export_paths[@]}" 
+do
+	exp_path="${exp_path::-1}"
+
+	esc_exp_path=$(printf "%q" "$exp_path")
+ 
+	if ! [[ $PATH =~ ^.*(^|:)($esc_exp_path)(:|$).* ]] 
+	then
+		echo "===Export $exp_path path==="
+		export PATH=$PATH:$exp_path
+	else
+		echo "===Path $exp_path already exported==="
+	fi
+done
+
+chmod +x -R $script_dir/

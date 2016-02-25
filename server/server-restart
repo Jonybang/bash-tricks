@@ -1,0 +1,12 @@
+#!/bin/bash
+ssh deploy@jonybang.ru "sudo reboot"
+echo "===Server rebooted, wait 60 seconds==="
+sleep 60
+apps=( "epic-tumblr-stats" "blog" "eva-events" "yo_cards" "evaDB-v.2.0" "eva-record" )
+
+for app in "${apps[@]}"
+do
+echo "===Start $app application==="
+(cd ~/workspace/$app; cap production puma:start)
+notify-send "Server restart script" "Application $app has started" -i gtk-info
+done

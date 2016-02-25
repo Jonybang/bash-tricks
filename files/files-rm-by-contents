@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo grep -lir "$1" . | xargs rm -rf

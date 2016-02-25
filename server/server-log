@@ -1,0 +1,23 @@
+#!/bin/bash
+repo_name=${PWD##*/}
+app_name=${repo_name//-/_}
+path="\/home\/deploy\/apps\/$app_name\/current\/log\/"
+command="tail -n 200"
+
+names=( "puma.access" "puma.error" "nginx.error" "production" )
+
+for name in "${names[@]}"
+do
+	if [ "$1" == "$name" ] || [ "$1" == "all" ] ; then
+		echo "===$name LOG[SERVER]==="
+
+		ssh deploy@jonybang.ru "$command ${path}${name}.log"
+
+		if [ "$2" == "clear" ] ; then
+			echo "===CLEAR $name LOG[SERVER]==="
+
+			ssh deploy@jonybang.ru "echo > ${path}${$name}.log"
+		fi
+	fi
+done
+

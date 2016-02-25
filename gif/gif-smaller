@@ -1,0 +1,9 @@
+#!/bin/sh
+filename=$(basename "$1")
+filename="${filename%.*}"
+
+if [ -z "$2" ]; then height=200; else height=$2; fi
+
+output_filename="${filename}-smaller($height).gif"
+
+gifsicle $1 --resize-height $height > $output_filename
