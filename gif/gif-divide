@@ -1,0 +1,9 @@
+#!/bin/sh
+filename=$(basename "$1")
+filename="${filename%.*}"
+
+frames_count=$(identify $1 | tail -1 | cut -d "[" -f2 - | cut -d "]" -f1 -)
+second_gif_start=$(($2 + 1))
+
+gifsicle $1 "#0-$2" > $filename-0-$2.gif
+gifsicle $1 "#$second_gif_start-$frames_count" > $filename-$second_gif_start-$frames_count.gif

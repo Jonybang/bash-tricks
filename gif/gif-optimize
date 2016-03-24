@@ -9,4 +9,4 @@ delay=$(identify -verbose $1[0] | grep Delay | gawk 'match($0, /Delay: ([0-9]*)x
 gifsicle $1 `seq -f "#%g" 0 2 $frames_count` --unoptimize -O2 -o $output_filename
 
 
-convert -delay ${delay/2}x100 $output_filename $output_filename
+convert -delay $(($delay * 2))x100 $output_filename $output_filename

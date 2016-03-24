@@ -1,0 +1,10 @@
+#!/bin/bash
+
+read -p "You try to delete $1 branch. Are you sure? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	git branch -d $1
+	git push origin :$1
+fi
+

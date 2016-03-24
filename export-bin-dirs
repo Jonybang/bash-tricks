@@ -13,6 +13,7 @@ do
 	then
 		echo "===Export $exp_path path==="
 		export PATH=$PATH:$exp_path
+		echo "export PATH=\$PATH:$exp_path" >> $HOME/.profile
 	else
 		echo "===Path $exp_path already exported==="
 	fi
