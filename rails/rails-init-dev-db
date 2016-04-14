@@ -1,0 +1,49 @@
+#!/bin/bash
+
+echo -n "Choose you DB adapter [sqlite/postgresql/mysql] [ENTER for sqlite]: " 
+read db_adapter
+db_adapter=${db_adapter:=sqlite}
+
+if [ $db_adapter = "sqlite" ]; then 
+
+	db_name="db/development.sqlite3"
+	
+else
+
+	repo_name=${PWD##*/}
+	app_name=${repo_name//-/_}
+	db_name="${app_name}_development"
+
+	echo -n "Enter db user [ENTER for default]: " 
+	read db_username
+
+	echo -n "Enter db password [ENTER for empty]: " 
+	read db_password
+
+	if [ $db_adapter = "postgresql" ]; then
+		db_username=${db_username:=postgres}
+		sudo -u postgres createdb -E UTF8 ${db_username:+"-O $db_username"} $db_name
+	fi
+
+	if [ $db_adapter = "mysql" ]; then
+		db_username=${db_username:=root}
+		mysql -u $db_username ${db_password:+-p} -e "create database $db_name;"
+	fi
+fi
+
+
+echo "
+development:
+	database: $db_name
+	adapter: $db_adapter
+	encoding: unicode
+	pool: 5
+	timeout: 5000" > ./config/database.yml
+
+if ! [ $db_adapter = "sqlite" ]; then
+
+	echo "
+	username: $db_username
+	password: $db_password" >> ./config/database.yml
+
+fi

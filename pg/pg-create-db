@@ -1,2 +1,2 @@
 #!/bin/sh
-createdb -U postgres -E UTF8 -O jonybang $1
+createdb -h 127.0.0.1 -U postgres -E UTF8 -O jonybang $1
