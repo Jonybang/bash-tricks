@@ -2,7 +2,7 @@
 ssh deploy@jonybang.ru "sudo reboot"
 echo "===Server rebooted, wait 60 seconds==="
 sleep 60
-apps=( "epic-tumblr-stats" "blog" "eva-events" "yo_cards" "evaDB-v.2.0" "eva-record" "open-api-graphs" "rails-angular-todo-list" )
+apps=( "epic-tumblr-stats" "blog" "eva-events" "yo_cards" "evaDB-v.2.0" "eva-record" "open-api-graphs" "rails_angular_todo_list" )
 
 for app in "${apps[@]}"
 do

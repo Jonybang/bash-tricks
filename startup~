@@ -3,5 +3,4 @@ notify-send "Приветствие" "Привет, Чемпион!" -i gtk-info
 skype &
 /opt/Telegram/Telegram &
 /usr/local/bin/guake &
-amixer -c 0 set "Internal Mic Boost" 1 &
 
