@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#IFS='
+#'
+#sudo apt-get install libav-tools
+
+# $1 - video file
+# $2 - from mm:ss
+# $3 - seconds
+
+# if ffmpeg not install - use avconv with bad quality
+# ffmpeg download link:
+# http://ffmpeg.org/download.html
+
+new_file_path=${1// /_}
+mv "./$1" ./$new_file_path
+
+if hash ffmpeg 2>/dev/null; then
+	echo "FFMPEG";
+	#sudo add-apt-repository ppa:mc3man/trusty-media
+	#sudo apt-get update
+	#sudo apt-get dist-upgrade
+	#sudo apt-get install ffmpeg
+	palette="/tmp/palette.png"
+
+	filters="fps=8,scale=320:-1:flags=lanczos"
+
+	args="-ss 00:$2 -t $3 -i $new_file_path"
+
+  ffmpeg $args -vf "$filters,palettegen" -y $palette
+  ffmpeg $args -r 8 -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -fs 1690000 -y "/tmp/animation.gif"
+	# thanks to http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
+else
+	#sudo apt-get install libav-tools
+
+	# -ss - offset hh:mm:ss
+	# -i - video file path
+	# -t - limit hh:mm:ss
+	# -v verbose - log
+	# -pix_fmt bgr8 - 8 bit color ouput
+	# -f image2 - image format
+	# -r 9 - frame rate 9 frames per second
+	# -s qvga - 320x240
+	# -an - without audio
+	zero_seconds=$(printf "%02d" $3)
+  avconv -ss 00:$2 -i $new_file_path -t 00:00:$zero_seconds -v verbose -pix_fmt bgr8 -f image2 -r 9 -s qvga -an /tmp/out%04d.gif
+	convert -delay 1x10 -loop 0 /tmp/out*.gif /tmp/animation.gif
+fi
+	
+#convert /tmp/animation.gif -coalesce -layers Optimize -gravity SouthEast caption:'your-hentai-girls.tumblr.com' $1.gif
+convert /tmp/animation.gif -coalesce -draw "gravity SouthEast; text 0,0 'your-hentai-girls.tumblr.com'" /tmp/text_animation.gif
+convert /tmp/text_animation.gif -layers Optimize $new_file_path.gif
+
+

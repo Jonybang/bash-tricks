@@ -2,4 +2,4 @@
 filename=$(basename "$1")
 filename="${filename%.*}"
 
-gifsicle $1 "#$2-$3" > $filename-$2-$3.gif
+gifsicle $1 --same-background --dither "#$2-$3" > $filename-$2-$3.gif
