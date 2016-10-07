@@ -21,8 +21,9 @@ else
 	read db_password
 
 	if [ $db_adapter = "postgresql" ]; then
-		db_username=${db_username:=postgres}
-		sudo -u postgres createdb -E UTF8 ${db_username:+"-O $db_username"} $db_name
+		db_username=${db_username:=$(echo $USER)}
+		sudo -u postgres createuser $db_username
+		sudo -u postgres createdb -E UTF8 -O$db_username $db_name
 	fi
 
 	if [ $db_adapter = "mysql" ]; then
@@ -32,18 +33,17 @@ else
 fi
 
 
-echo "
-development:
-	database: $db_name
-	adapter: $db_adapter
-	encoding: unicode
-	pool: 5
-	timeout: 5000" > ./config/database.yml
+echo "development:
+  database: $db_name
+  adapter: $db_adapter
+  encoding: unicode
+  pool: 5
+  timeout: 5000" > ./config/database.yml
 
 if ! [ $db_adapter = "sqlite" ]; then
 
 	echo "
-	username: $db_username
-	password: $db_password" >> ./config/database.yml
+  username: $db_username
+  password: $db_password" >> ./config/database.yml
 
 fi

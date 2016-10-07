@@ -1,2 +1,0 @@
-#!/bin/sh
-createdb -U postgres -E UTF8 -O jonybang $1
