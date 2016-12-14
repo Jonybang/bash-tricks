@@ -5,7 +5,7 @@ export_paths+=("$script_dir/")
 
 for exp_path in "${export_paths[@]}" 
 do
-	exp_path="${exp_path::-1}"
+	#exp_path="${exp_path::-1}"
 
 	esc_exp_path=$(printf "%q" "$exp_path")
  

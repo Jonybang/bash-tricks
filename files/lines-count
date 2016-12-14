@@ -1,0 +1,5 @@
+ext=''
+
+if [ -z ${1+x} ]; then ext='*'; else ext=$1; fi
+
+find . -name "*.$ext" | xargs wc -l
